@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D</title>
   <script src="../three.js-r138/build/three.js"></script>
+  <script src="../three.js-r138/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
   <script>
@@ -13,10 +14,14 @@
      * 1.创建场景 scene
     */
      var scene = new THREE.Scene();
+
     /* 创建网格模型 */
     /* 创建几何对象 */
-    var geometry = new THREE.BoxGeometry(100, 100, 100); // 立方体几何
-    // var geometry = new THREE.SphereGeometry(60, 40, 40) // 球体几何
+    // 立方体几何
+    var geometry = new THREE.BoxGeometry(100, 100, 100);
+    // 球体几何
+    // var geometry = new THREE.SphereGeometry(60, 40, 40);
+
     /* 材质对象 */
     var material = new THREE.MeshLambertMaterial({
       color: 0x0000ff
@@ -35,7 +40,7 @@
     scene.add(ambient); // 环境光添加到场景中
 
     /**
-     * 相机设置
+     * 2.相机设置
      */
     var width = window.innerWidth, height = window.innerHeight;
     var ratio = width / height;
@@ -46,7 +51,7 @@
     camera.lookAt(scene.position) // 设置相机方向(指向场景方向)
 
     /**
-     * 创建渲染器对象
+     * 3.创建渲染器对象
      */
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height); //设置渲染区域尺寸
@@ -54,7 +59,33 @@
     document.body.appendChild(renderer.domElement);
 
     // 执行渲染操作
-    renderer.render(scene,camera);
+    // renderer.render(scene,camera);
+
+    /**
+     * 利用 setinterval 实现动画效果
+     */
+    // function render() {
+    //   renderer.render(scene, camera);
+    //   mesh.rotateY(0.01);
+    //   mesh.rotateX(0.01);
+    // }
+    // setInterval(() => {
+    //   render()
+    // }, 16.6)
+
+    /**
+     * 利用 requestAnimationFrame 实现动画效果
+     */
+    function render() {
+      renderer.render(scene, camera);
+      mesh.rotateY(0.01);
+      mesh.rotateX(0.01);
+      requestAnimationFrame(render)
+    }
+    render();
+
+    //创建控件对象
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
   </script>
 </body>
 </html>
