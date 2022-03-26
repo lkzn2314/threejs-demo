@@ -19,15 +19,27 @@
     /* 创建几何对象 */
     // 立方体几何
     var geometry = new THREE.BoxGeometry(100, 100, 100);
-    // 球体几何
-    // var geometry = new THREE.SphereGeometry(60, 40, 40);
 
     /* 材质对象 */
+    // MeshLambertMaterial 漫反射； MeshPhongMaterial 镜面反射
     var material = new THREE.MeshLambertMaterial({
-      color: 0x0000ff
+      color: 0x0000ff,
+      // 透明度
+      opacity: 0.8,
+      transparent: true
     });
     var mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh); // 网格模型添加到场景中
+
+    /* 场景插入多个模型 */
+     // 球体几何
+    var geometry2 = new THREE.SphereGeometry(60, 40, 40);
+    var material2 = new THREE.MeshPhongMaterial({
+      color: 0xc778a5,
+    })
+    var mesh2 = new THREE.Mesh(geometry2, material2);
+    // mesh2.translateX(150);
+    scene.add(mesh2)
 
     /* 光源设置 */
     // 点光源
@@ -80,6 +92,7 @@
       renderer.render(scene, camera);
       mesh.rotateY(0.01);
       mesh.rotateX(0.01);
+      mesh2.rotateY(0.02);
       requestAnimationFrame(render)
     }
     render();
